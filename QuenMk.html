@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/QuenMk.css">
+    <title>Quên mật khẩu</title>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Quên mật khẩu</h2>
+      <p>Nhập email/số điện thoại để đặt lại mật khẩu</p>
+
+      <form onsubmit="return forgotpass()">
+        <input type="text" id="contact" placeholder="Email hoặc số điện thoại" required>
+        <p id="contact-error"></p>
+        <button type="submit" class="forgotpass">Gửi yêu cầu</button>
+      </form>
+      
+      <div style="text-align: center;">
+        <a href="DangNhap.html" class="login-link">Quay lại đăng nhập</a>
+      </div>
+    </div>
+    <div id="toast"></div>
+
+    <script>
+      const emailregex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const phoneregex = /^(0|\+84)[0-9]{9}$/;
+      const contact = document.getElementById("contact");
+      const error = document.getElementById("contact-error");
+      contact.addEventListener("input", () => {
+      const value = contact.value.trim();
+      if(emailregex.test(value)||phoneregex.test(value)){
+        error.textContent = "";
+      }
+      else{
+        error.textContent = "Email hoặc số điện thoại không hợp lệ";
+        error.style.color = "red";
+      }
+      });
+
+      function showtoast(message,success=false){
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      if(success){
+        toast.style.background = "green";
+      }
+      else{
+        toast.style.background = "red";
+      }
+      toast.classList.add("show");
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 3000);
+      }
+
+      function forgotpass(){
+      const contactvalue = contact.value.trim();
+      if(!emailregex.test(contactvalue)&&!phoneregex.test(contactvalue)){
+        showtoast("Gửi yêu cầu không thành công!");
+        return false;
+      }
+      showtoast("Đã gửi yêu cầu đặt lại mật khẩu, vui lòng kiểm tra email/số điện thoại trên thiết bị của bạn!",true);
+      return false;
+      }
+    </script>
+  </body>
+</html>

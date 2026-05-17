@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/DangNhap.css">
+    <title>Đăng nhập - Breaking News</title>
+  </head>
+  <body>
+    <div class="register-container">
+      <div class="header">
+        <h2>Đăng nhập</h2>
+      </div>
+      <form onsubmit="return login()">
+        <input
+        type="text"
+        id="contact"
+        placeholder="Email hoặc số điện thoại"
+        style="margin-bottom: 12px"
+        required/>
+        <p id="contact-error"></p>
+        <input
+        type="password"
+        placeholder="Mật khẩu"
+        style="margin-bottom: 10px"
+        required/>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 14px;">
+          <label>
+            <input type="checkbox" /> Ghi nhớ
+          </label>
+          <a href="QuenMk.html" style="color: #e50914; text-decoration: none;"> Quên mật khẩu? </a>
+        </div>
+        <button type="submit" class="btn-signup">Đăng nhập</button>
+
+        <a href="DangKy.html" class="signup-link">Bạn chưa có tài khoản?</a>
+      </form>
+    </div>
+    <div id="toast">Đăng nhập thành công !</div>
+
+    <script>
+      const contact = document.getElementById("contact");
+      const error = document.getElementById("contact-error");
+      contact.addEventListener("input", () => {
+      const value = contact.value.trim();
+      const emailRegex =
+          /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const phoneRegex =
+          /^(0|\+84)[0-9]{9}$/;
+      if (emailRegex.test(value)||phoneRegex.test(value)) {
+        error.textContent = "";
+      }
+      else {
+        error.textContent = "Email hoặc số điện thoại không hợp lệ";
+        error.style.color = "red";
+      }
+      });
+
+
+      function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.classList.add("show");
+        setTimeout(() => {
+          toast.classList.remove("show");
+        }, 3000);
+        }
+        function login() {
+          showToast("Đăng nhập thành công!");
+          return false;
+        }
+    </script>
+  </body>
+</html>

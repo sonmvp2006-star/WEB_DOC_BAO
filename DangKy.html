@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/DangKy.css">
+    <title>Đăng ký - Breaking News</title>
+  </head>
+  <body>
+    <div class="register-container">
+      <div class="header">
+        <h2>Tạo tài khoản mới</h2>
+        <p>Nhanh chóng và dễ dàng để cập nhật tin tức.</p>
+      </div>
+      <form onsubmit="return signup()">
+        <span class="label-text">Ngày sinh</span>
+        <input type="date"required/>
+
+
+        <span class="label-text">Giới tính</span>
+        <div class="gender-container">
+          <div class="gender-box">Nữ <input type="radio" name="gender"></div>
+          <div class="gender-box">Nam <input type="radio" name="gender"required/></div>
+          <div class="gender-box">Khác <input type="radio" name="gender"/></div>
+        </div>
+
+
+        <div class="input-group">
+          <input type="text" id="username" placeholder="Tên người dùng"required/>
+        </div>
+        <p id="username-error"></p>
+
+
+        <input
+          type="text"
+          id="contact"
+          placeholder="Số di động hoặc email"
+          style="margin-bottom: 12px"
+        required/>
+        <p id="contact-error"></p>
+
+
+        <input
+          type="password"
+          id="password"
+          placeholder="Mật khẩu mới"
+          style="margin-bottom: 15px"
+        required/>
+        <div class="strength">
+          <div id="strength-bar"></div>
+        </div>
+        <p id="strength-text"></p>
+
+
+        <p class="footer-text">
+          Bằng cách nhấp vào Đăng ký, bạn đồng ý với Điều khoản, Chính sách
+          quyền riêng tư và Chính sách cookie của chúng tôi.
+        </p>
+
+        <button type="submit" class="btn-signup">Đăng ký</button>
+
+        <a href="DangNhap.html" class="login-link">Bạn đã có tài khoản?</a>
+      </form>
+    </div>
+    <div id="toast">Đăng ký thành công !</div>
+    <script>
+      const password = document.getElementById("password");
+      const bar = document.getElementById("strength-bar");
+      const text = document.getElementById("strength-text");
+      password.addEventListener("input", () => {
+      const value = password.value;
+      let score = 0;
+      if (value.length >= 6) score++;
+      if (/[A-Z]/.test(value)) score++;
+      if (/[0-9]/.test(value)) score++;
+      if (/[^A-Za-z0-9]/.test(value)) score++;
+      switch(score){
+        case 0:
+        bar.style.width = "0%";
+        text.textContent = "";
+        break;
+        case 1:
+        bar.style.width = "25%";
+        bar.style.background = "red";
+        text.textContent = "Yếu";
+        break;
+        case 2:
+        bar.style.width = "50%";
+        bar.style.background = "orange";
+        text.textContent = "Trung bình";
+        break;
+        case 3:
+        bar.style.width = "75%";
+        bar.style.background = "gold";
+        text.textContent = "Khá mạnh";
+        break;
+        case 4:
+        bar.style.width = "100%";
+        bar.style.background = "green";
+        text.textContent = "Mạnh";
+        break;
+      }
+      });
+
+      const contact = document.getElementById("contact");
+      const error = document.getElementById("contact-error");
+      contact.addEventListener("input", () => {
+      const value = contact.value.trim();
+      const emailRegex =
+          /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const phoneRegex =
+          /^(0|\+84)[0-9]{9}$/;
+      if (emailRegex.test(value)) {
+          error.textContent = "Email hợp lệ";
+          error.style.color = "green";
+      }
+      else if (phoneRegex.test(value)) {
+          error.textContent = "Số điện thoại hợp lệ";
+          error.style.color = "green";
+      }
+      else {
+          error.textContent =
+          "Email hoặc số điện thoại không hợp lệ";
+          error.style.color = "red";
+      }
+      });
+
+      const username = document.getElementById("username");
+      const usernameError = document.getElementById("username-error");
+      const usernameRegex = /^[a-zA-Z0-9_.]{4,20}$/;
+      username.addEventListener("input", () => {
+      const value = username.value.trim();
+      if (value.length < 4) {
+        usernameError.textContent = "Tên người dùng quá ngắn";
+        usernameError.style.color = "red";
+      }
+      else if (!usernameRegex.test(value)) {
+        usernameError.textContent = "Chỉ được dùng chữ, số, _ hoặc .";
+        usernameError.style.color = "red";
+      }
+      else {
+        usernameError.textContent = "Username hợp lệ";
+        usernameError.style.color = "green";
+      }
+      });
+
+      function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.classList.add("show");
+        setTimeout(() => {
+          toast.classList.remove("show");
+        }, 3000);
+        }
+        function signup() {
+          showToast("Đăng ký thành công!");
+          return false;
+        }
+    </script>
+  </body>
+</html>
